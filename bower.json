@@ -1,0 +1,21 @@
+{
+  "name": "polymer-weatherApp",
+  "homepage": "https://github.com/eumendoza/codemotion-monkeySearch",
+  "authors": [
+    "Eugenio Mendoza <eu.mendoza@gmail.com>"
+  ],
+  "description": "Monkey Island Search - Codemotion 2015",
+  "main": "index.html",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "search",
+    "codemotion",
+    "javascript"
+  ],
+  "license": "Apache 2.0",
+  "private": true,
+  "dependencies": {
+    "polymer": "~1.2.3"
+  }
+}
