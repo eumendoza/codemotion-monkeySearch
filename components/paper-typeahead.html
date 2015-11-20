@@ -1,0 +1,67 @@
+<dom-module id="paper-typeahead">
+
+  <style>
+    :host {
+      display: block;
+      box-sizing: border-box;
+    }
+  </style>
+
+  <template>
+    <!-- TODO: POST -->
+    <iron-ajax
+    auto
+    url="{{ remoteUrl }}"
+    method="GET"
+    handle-as="json"
+    on-response="_handleResponse"></iron-ajax>
+
+    <paper-input value="{{ pathValue }}"></paper-input>
+
+    <paper-input value="{{ inputValue }}"></paper-input>
+
+  </template>
+
+</dom-module>
+
+<script>
+
+  'use-strict';
+
+  Polymer({
+    is: 'paper-typeahead',
+    properties:{
+      serverUrl: {
+        value: 'http://127.0.0.1:8080/fakeJson.json',
+        readOnly: true 
+      },
+      remoteUrl: {
+        value: '',
+        type: String,
+        notify: true
+      },
+      inputValue: {
+        type: String,
+        notify: true,
+        observer: '_inputValueChanged'
+      }
+    },
+    ready: function(){
+
+    },
+    _handleResponse: function(event){
+      var response = event.detail.response;
+      console.log(response);
+    },
+    _inputValueChanged: function(newValue, oldValue){
+      if(newValue == ''){
+        this.remoteUrl = this.serverUrl;
+      }else{
+        if(newValue.length > 1){
+          this.remoteUrl = this.serverUrl + '?q=' + newValue;
+        }
+      }
+    }
+  });
+
+</script>

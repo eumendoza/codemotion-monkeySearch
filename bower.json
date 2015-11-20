@@ -16,6 +16,8 @@
   "license": "Apache 2.0",
   "private": true,
   "dependencies": {
-    "polymer": "~1.2.3"
+    "polymer": "~1.2.3",
+    "paper-input": "PolymerElements/paper-input#~1.1.1",
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
   }
 }
