@@ -9,12 +9,22 @@
 		<link rel="import" href="bower_components/polymer/polymer.html">
 		<!-- Elements -->
 		<link rel="import" href="elements.html">
-
+		<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" type="text/css">
+		<link href="styles.css" rel="stylesheet" type="text/css">
+		<style is="custom-style">
+		    .container {
+		      @apply(--layout-vertical);
+		      @apply(--layout-center-justified);
+		      align-items: center;
+		    }
+  		</style>
 	</head>
 	<body unresolved class="fullbleed layout vertical">
 		<template is="dom-bind" id="app">
-
-			<paper-typeahead></paper-typeahead>
+			<div class="container">
+				<iron-image id="logo" src="assets/logo.png"></iron-image>
+				<paper-typeahead></paper-typeahead>
+			</div>
 			
 		</template>
 		<script src="scripts/app.js"></script>

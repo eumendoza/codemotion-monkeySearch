@@ -4,6 +4,7 @@
     :host {
       display: block;
       box-sizing: border-box;
+      width:50%;
     }
   </style>
 
@@ -14,11 +15,25 @@
     url="{{ remoteUrl }}"
     method="GET"
     handle-as="json"
-    on-response="_handleResponse"></iron-ajax>
+    on-response="_handleResponse"
+    debounce-duration="500"></iron-ajax>
 
-    <paper-input value="{{ pathValue }}"></paper-input>
+    <h4>Servicio</h4>
+    <paper-input value="{{ serviceValue }}"></paper-input>
+    <h4>Query</h4>
+    <paper-input value="{{ queryValue }}"></paper-input>
 
-    <paper-input value="{{ inputValue }}"></paper-input>
+    <template is="dom-if" if="{{ results.length }}">
+      <paper-material>
+        <paper-menu>
+          <template is="dom-repeat" items="{{ results }}">
+            <paper-item>
+              <span>{{ item }}</span>
+            </paper-item>
+          </template>
+        </paper-menu>
+      </paper-material>
+    </template>
 
   </template>
 
@@ -32,7 +47,7 @@
     is: 'paper-typeahead',
     properties:{
       serverUrl: {
-        value: 'http://127.0.0.1:8080/fakeJson.json',
+        value: 'http://52.18.67.14',
         readOnly: true 
       },
       remoteUrl: {
@@ -40,10 +55,20 @@
         type: String,
         notify: true
       },
-      inputValue: {
+      queryValue: {
         type: String,
         notify: true,
-        observer: '_inputValueChanged'
+        observer: '_queryValueChanged'
+      },
+      serviceValue: {
+        type: String,
+        notify: true,
+        observer: '_serviceValueChanged',
+        value: 'lechuckcors'
+      },
+      results: {
+        type: Array,
+        value: []
       }
     },
     ready: function(){
@@ -51,14 +76,31 @@
     },
     _handleResponse: function(event){
       var response = event.detail.response;
-      console.log(response);
+      if(this.queryValue !== ''){
+        this.results = response.map(function(item){
+          return item.data;
+        });
+      }
     },
-    _inputValueChanged: function(newValue, oldValue){
+    _queryValueChanged: function(newValue, oldValue){
       if(newValue == ''){
         this.remoteUrl = this.serverUrl;
       }else{
         if(newValue.length > 1){
-          this.remoteUrl = this.serverUrl + '?q=' + newValue;
+          this.remoteUrl = this.serverUrl + '/' + this.serviceValue +'/search?text=' + newValue;
+        }else{
+          this.results = [];
+        }
+      }
+    },
+    _serviceValueChanged: function(newValue, oldValue){
+      if(newValue == ''){
+        this.remoteUrl = this.serverUrl;
+      }else{
+        if(newValue.length > 1){
+          this.remoteUrl = this.serverUrl + '/' + newValue +'/search?text=' + this.queryValue;
+        }else{
+          this.results = [];
         }
       }
     }

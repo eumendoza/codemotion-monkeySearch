@@ -18,6 +18,10 @@
   "dependencies": {
     "polymer": "~1.2.3",
     "paper-input": "PolymerElements/paper-input#~1.1.1",
-    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1"
+    "iron-ajax": "PolymerElements/iron-ajax#~1.1.1",
+    "paper-material": "PolymerElements/paper-material#~1.0.4",
+    "paper-menu": "PolymerElements/paper-menu#~1.2.0",
+    "paper-item": "PolymerElements/paper-item#~1.1.1",
+    "iron-image": "PolymerElements/iron-image#~1.0.3"
   }
 }
