@@ -47,15 +47,14 @@
     url="{{ remoteUrl }}"
     method="GET"
     handle-as="json"
-    on-response="_handleResponse"
-    debounce-duration="500"></iron-ajax>
+    on-response="_handleResponse"></iron-ajax>
 
     <h4>Servicio</h4>
     <paper-input value="{{ serviceValue }}"></paper-input>
     <h4>Query</h4>
-    <paper-input value="{{ queryValue }}"></paper-input>
+    <paper-input id="queryInput" value="{{ queryValue }}"></paper-input>
 
-    <template is="dom-if" if="{{ results.length }}">
+    <div hidden="{{ listHidden }}">
       <paper-material>
         <paper-menu>
           <template is="dom-repeat" items="{{ results }}">
@@ -65,7 +64,7 @@
           </template>
         </paper-menu>
       </paper-material>
-    </template>
+    </div>
 
   </template>
 
@@ -100,11 +99,18 @@
       },
       results: {
         type: Array,
-        value: []
+        value: [],
+        notify: true,
+        observer: '_resultsChanged'
+      },
+      listHidden: {
+        type: Boolean,
+        value: true,
+        notify: true
       }
     },
-    ready: function(){
-
+    _resultsChanged: function(newValue, oldValue){
+      this.listHidden = (newValue.length > 0) ? false : true;
     },
     _handleResponse: function(event){
       var response = event.detail.response;
@@ -114,6 +120,17 @@
         });
       }
     },
+    /*_highLightText: function(){
+      var texto = document.getElementById('queryInput').value;
+      var pattern = new RegExp("("+texto+")", "gi");
+      var lista = document.getElementsByTagName('paper-item');
+      for (var i = 0; i < lista.length; i++) {
+        var srcString = lista[i].outerText;
+        srcString = srcString.replace(pattern, "<mark>$1</mark>");
+        srcString = srcString.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/,"$1</mark>$2<mark>$4");
+        lista[i].innerHTML = '<span class="style-scope paper-typeahead">'+srcString+'</span>';
+      };
+    },*/
     _queryValueChanged: function(newValue, oldValue){
       if(newValue == ''){
         this.remoteUrl = this.serverUrl;
