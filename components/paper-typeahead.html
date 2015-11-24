@@ -41,13 +41,14 @@
   </style>
 
   <template>
-    <!-- TODO: POST -->
+
     <iron-ajax
-    auto
+    auto = "{{ autoAjax }}" 
     url="{{ remoteUrl }}"
     method="GET"
     handle-as="json"
-    on-response="_handleResponse"></iron-ajax>
+    on-response="_handleResponse"
+    on-error="_handleError"></iron-ajax>
 
     <h4>Servicio</h4>
     <paper-input value="{{ serviceValue }}"></paper-input>
@@ -107,6 +108,11 @@
         type: Boolean,
         value: true,
         notify: true
+      },
+      autoAjax: {
+        type: Boolean,
+        value: false,
+        notify: true
       }
     },
     _resultsChanged: function(newValue, oldValue){
@@ -120,37 +126,27 @@
         });
       }
     },
-    /*_highLightText: function(){
-      var texto = document.getElementById('queryInput').value;
-      var pattern = new RegExp("("+texto+")", "gi");
-      var lista = document.getElementsByTagName('paper-item');
-      for (var i = 0; i < lista.length; i++) {
-        var srcString = lista[i].outerText;
-        srcString = srcString.replace(pattern, "<mark>$1</mark>");
-        srcString = srcString.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/,"$1</mark>$2<mark>$4");
-        lista[i].innerHTML = '<span class="style-scope paper-typeahead">'+srcString+'</span>';
-      };
-    },*/
+    _handleError: function(event){
+      this.results = [];
+    },
     _queryValueChanged: function(newValue, oldValue){
-      if(newValue == ''){
-        this.remoteUrl = this.serverUrl;
+      if(newValue.length > 1){
+        this.autoAjax = true;
+        this.remoteUrl = this.serverUrl + '/' + this.serviceValue +'/search?text=' + newValue;
       }else{
-        if(newValue.length > 1){
-          this.remoteUrl = this.serverUrl + '/' + this.serviceValue +'/search?text=' + newValue;
-        }else{
-          this.results = [];
-        }
+        this.autoAjax = false;
+        this.results = [];
+        this.remoteUrl = this.serverUrl;
       }
     },
     _serviceValueChanged: function(newValue, oldValue){
-      if(newValue == ''){
-        this.remoteUrl = this.serverUrl;
+      if(newValue.length > 1){
+        this.autoAjax = true;
+        this.remoteUrl = this.serverUrl + '/' + newValue +'/search?text=' + this.queryValue;
       }else{
-        if(newValue.length > 1){
-          this.remoteUrl = this.serverUrl + '/' + newValue +'/search?text=' + this.queryValue;
-        }else{
-          this.results = [];
-        }
+        this.autoAjax = false;
+        this.results = [];
+        this.remoteUrl = this.serverUrl;
       }
     }
   });
