@@ -13,7 +13,7 @@
       font-size: 24px;
       margin: 30px 0 0 0;
       padding: 0;
-      color: #FFEE58;
+      color: #AD4B8A;
       text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
       font-weight: normal;
     }
@@ -28,7 +28,7 @@
         height:3px;
       }
       --paper-input-container-underline-focus:{
-        background-color: #ffee58;
+        background-color: #AD4B8A;
         height:3px;
       }
     }
@@ -52,7 +52,7 @@
 
     <h4>Servicio</h4>
     <paper-input value="{{ serviceValue }}"></paper-input>
-    <h4>Query</h4>
+    <h4>Búsqueda</h4>
     <paper-input id="queryInput" value="{{ queryValue }}"></paper-input>
 
     <div hidden="{{ listHidden }}">
@@ -115,6 +115,12 @@
         notify: true
       }
     },
+    attached: function(){
+      var self = this;
+      document.addEventListener('keyup', function(event){
+        //self._highLightText();
+      });
+    },
     _resultsChanged: function(newValue, oldValue){
       this.listHidden = (newValue.length > 0) ? false : true;
     },
@@ -125,6 +131,17 @@
           return item.data;
         });
       }
+    },
+    _highLightText: function(){
+      var texto = document.getElementById('queryInput').value;
+      var pattern = new RegExp("("+texto+")", "gi");
+      var lista = document.getElementsByTagName('paper-item');
+      for (var i = 0; i < this.results.length; i++) {
+        var srcString = this.results[i];
+        srcString = srcString.replace(pattern, '<mark>$1</mark>');
+        srcString = srcString.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/,"$1</mark>$2<mark>$4");
+        lista[i].innerHTML = '<span class="style-scope paper-typeahead">'+srcString+'</span>';
+      };
     },
     _handleError: function(event){
       this.results = [];

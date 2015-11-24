@@ -17,12 +17,16 @@
 		      @apply(--layout-center-justified);
 		      align-items: center;
 		    }
+		    iron-image{
+		    	width:300px;
+		    	height:200px;
+		    }
   		</style>
 	</head>
 	<body unresolved class="fullbleed layout vertical">
 		<template is="dom-bind" id="app">
 			<div class="container">
-				<iron-image id="logo" src="assets/logo.png"></iron-image>
+				<iron-image id="logo" src="assets/logo.png" sizing="contain"></iron-image>
 				<paper-typeahead></paper-typeahead>
 			</div>
 			

@@ -5,5 +5,11 @@ html, body{
 	margin:0;
 	padding:0 0 100px 0;
 	box-sizing: border-box;
-	background-color: #795548;
+	background-color: #458AF3;
+}
+
+mark {
+    color: white;
+    background-color: #934979;
+    padding: 2px;
 }
