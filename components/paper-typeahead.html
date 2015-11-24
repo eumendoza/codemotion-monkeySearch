@@ -3,9 +3,41 @@
   <style>
     :host {
       display: block;
+      padding-top: 40px;
       box-sizing: border-box;
       width:50%;
+      font-family: 'Press Start 2P', cursive;
     }
+
+    h4 {
+      font-size: 24px;
+      margin: 30px 0 0 0;
+      padding: 0;
+      color: #FFEE58;
+      text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+      font-weight: normal;
+    }
+
+    paper-input {
+      --paper-input-container-input:{
+        font-family: 'Press Start 2P', cursive !important;
+        color: #ffffff;
+      }
+      --paper-input-container-underline:{
+        background-color: #ffffff;
+        height:3px;
+      }
+      --paper-input-container-underline-focus:{
+        background-color: #ffee58;
+        height:3px;
+      }
+    }
+
+    paper-item {
+      font-family: 'Press Start 2P', cursive !important;
+      font-size: 10px;
+    }
+    
   </style>
 
   <template>
